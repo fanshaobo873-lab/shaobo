@@ -127,7 +127,7 @@
 
       <!-- Trading Record Divider -->
       <div class="trade-separator">
-        <h3><i class="bi bi-clipboard-data"></i> Trading Records (Last 3 Months)</h3>
+        <h3><i class="bi bi-clipboard-data"></i> Trading Records (Last 1 Year)</h3>
         <div class="divider-line"></div>
       </div>
 
@@ -474,16 +474,16 @@ onMounted(() => {
     
     // 对本地存储的数据也进行过滤和排序
     if(indexdata.trades && Array.isArray(indexdata.trades)) {
-      // 首先过滤出3个月内的交易记录
-      const threeMonthsAgo = new Date();
-      threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+      // 首先过滤出1年内的交易记录
+      const oneYearAgo = new Date();
+      oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
       
       const filteredTrades = indexdata.trades.filter((trade: any) => {
-        // 如果有退出日期，以退出时间为准，只显示退出时间在3个月内的交易
+        // 如果有退出日期，以退出时间为准，只显示退出时间在1年内的交易
         if (trade.exit_date) {
           const exitDate = new Date(trade.exit_date);
-          // 只检查退出时间是否在3个月内
-          return exitDate >= threeMonthsAgo;
+          // 只检查退出时间是否在1年内
+          return exitDate >= oneYearAgo;
         }
         // 如果没有退出日期（Active状态），显示所有Active交易
         return true;
@@ -720,16 +720,16 @@ const getindexdata= async()=>{
     strategy_info.value=res.data.strategy_info;
      }
     
-    // 首先过滤出3个月内的交易记录
-    const threeMonthsAgo = new Date();
-    threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+    // 首先过滤出1年内的交易记录
+    const oneYearAgo = new Date();
+    oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
     
     const filteredTrades = res.data.trades.filter((trade: any) => {
-      // 如果有退出日期，以退出时间为准，只显示退出时间在3个月内的交易
+      // 如果有退出日期，以退出时间为准，只显示退出时间在1年内的交易
       if (trade.exit_date) {
         const exitDate = new Date(trade.exit_date);
-        // 只检查退出时间是否在3个月内
-        return exitDate >= threeMonthsAgo;
+        // 只检查退出时间是否在1年内
+        return exitDate >= oneYearAgo;
       }
       // 如果没有退出日期（Active状态），显示所有Active交易
       return true;

@@ -479,15 +479,14 @@ onMounted(() => {
       threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
       
       const filteredTrades = indexdata.trades.filter((trade: any) => {
-        const entryDate = new Date(trade.entry_date);
-        // 如果交易记录有退出日期，也要检查退出日期是否在3个月内
+        // 如果有退出日期，以退出时间为准，只显示退出时间在3个月内的交易
         if (trade.exit_date) {
           const exitDate = new Date(trade.exit_date);
-          // 只要entry_date或exit_date在3个月内，就显示
-          return entryDate >= threeMonthsAgo || exitDate >= threeMonthsAgo;
+          // 只检查退出时间是否在3个月内
+          return exitDate >= threeMonthsAgo;
         }
-        // 如果没有退出日期（Active状态），只检查entry_date
-        return entryDate >= threeMonthsAgo;
+        // 如果没有退出日期（Active状态），显示所有Active交易
+        return true;
       });
       
       const sortedTrades = filteredTrades.sort((a: any, b: any) => {
@@ -726,15 +725,14 @@ const getindexdata= async()=>{
     threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
     
     const filteredTrades = res.data.trades.filter((trade: any) => {
-      const entryDate = new Date(trade.entry_date);
-      // 如果交易记录有退出日期，也要检查退出日期是否在3个月内
+      // 如果有退出日期，以退出时间为准，只显示退出时间在3个月内的交易
       if (trade.exit_date) {
         const exitDate = new Date(trade.exit_date);
-        // 只要entry_date或exit_date在3个月内，就显示
-        return entryDate >= threeMonthsAgo || exitDate >= threeMonthsAgo;
+        // 只检查退出时间是否在3个月内
+        return exitDate >= threeMonthsAgo;
       }
-      // 如果没有退出日期（Active状态），只检查entry_date
-      return entryDate >= threeMonthsAgo;
+      // 如果没有退出日期（Active状态），显示所有Active交易
+      return true;
     });
     
     // 复杂排序：首先按重点交易，然后按状态，最后按时间
